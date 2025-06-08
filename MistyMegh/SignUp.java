@@ -15,9 +15,9 @@ class SignUp extends JFrame implements ActionListener,MouseListener
 	JTextField emailf;
 	JPasswordField passf;
 	JButton regButton;
-	JButton backButton;
+	JButton backButton,eyebutton;
 	JRadioButton b1,b2;
-	ImageIcon bg;
+	ImageIcon bg,eyeclose,eyeopen;
 	Font f1;
 	Font f2;
 	Color c1;
@@ -87,6 +87,14 @@ class SignUp extends JFrame implements ActionListener,MouseListener
 		passf.setEchoChar('*');
 		passf.setFont(f1);
 		
+		eyebutton = new JButton();
+		eyebutton.setBounds(370,370,40,30);
+		
+		eyeclose = new ImageIcon("eyecon.jpg");
+		Image img = eyeclose.getImage().getScaledInstance(40,30,Image.SCALE_SMOOTH);
+		ImageIcon re = new ImageIcon(img);
+		eyebutton.setIcon(re);
+		
 		b1 = new JRadioButton("Save Account");
 		b1.setBounds(50,420,120,30);
 		b1.setForeground(Color.black);
@@ -128,6 +136,7 @@ class SignUp extends JFrame implements ActionListener,MouseListener
 		bgLabel.add(backButton);
 		bgLabel.add(b1);
 		bgLabel.add(b2);
+		bgLabel.add(eyebutton);
 		
 		regButton.addActionListener(this);
 		backButton.addActionListener(new ActionListener()
@@ -141,6 +150,27 @@ class SignUp extends JFrame implements ActionListener,MouseListener
 		});
 		regButton.addMouseListener(this);
 		backButton.addMouseListener(this);
+		eyebutton.addActionListener(new ActionListener()
+		{
+			boolean isPassVisible = false;
+			public void actionPerformed(ActionEvent e)
+			{
+				if(isPassVisible)
+				{
+					passf.setEchoChar('*');
+					eyebutton.setIcon(re);
+				}
+				else
+				{
+					passf.setEchoChar((char) 0);
+					eyeopen = new ImageIcon("eyecon2.jpg");
+		            Image img1 = eyeopen.getImage().getScaledInstance(40,30,Image.SCALE_SMOOTH);
+		            ImageIcon re1 = new ImageIcon(img1);
+		            eyebutton.setIcon(re1);
+				}
+				isPassVisible = !isPassVisible;
+			}
+		});
 		
 		this.add(bgLabel);
 		this.setVisible(true);
