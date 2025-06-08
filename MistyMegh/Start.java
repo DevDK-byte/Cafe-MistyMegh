@@ -5,6 +5,6 @@ public class Start
 {
 	public static void main(String[] args)
 	{
-		new Login();
+		Login l = new Login();
 	}
 }
