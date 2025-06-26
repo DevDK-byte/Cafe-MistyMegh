@@ -1,0 +1,15 @@
+
+deepak	dhaka	Pizza	650	BDT 1300
+deepak	boggura	Americano	250	
+deepak	dhk	Americano	250	
+ds	ds	Americano	250	
+Deepak	dd	Americano	250	
+Deepak	dhaka	Pizza	650	
+Deepak	dhaka	Americano	250	
+Deepak	dhaka	Pizza	650	BDT 1150
+Deepak	dhaka	Americano	250	BDT 1150
+ss	ss	Americano	250	
+ss	ss	Americano	250	
+abc	efg	Sandwich	150	BDT 300
+deepak	Dhaka	Sandwich	150	BDT 550
+deepak	Dhaka	Americano	250	BDT 550

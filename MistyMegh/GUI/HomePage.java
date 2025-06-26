@@ -4,7 +4,7 @@ import java.lang.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.io.*;
 
 class HomePage extends JFrame implements ActionListener,MouseListener
 {
@@ -16,7 +16,7 @@ class HomePage extends JFrame implements ActionListener,MouseListener
 	JLabel pizzProduct,pizzPrice,pizzQty,sanProduct,sanPrice,sanQty,coffeeProduct,coffeePrice,coffeeQty;
 	JTextField namef,addressf,phonef,totalf,pizzP;
 	JTextField pizzqtyL,sanqtyL,coffeeqtyL;
-	JButton backb,confirm,reset,addButton;
+	JButton backb,confirm,reset,addButton,DetailsButton;
 	JCheckBox pizzbox,sanbox,coffeebox;
 	ImageIcon pizza,sandwich,coffee,addImg,appImg;
 	Font f1,f2,f3;
@@ -105,16 +105,22 @@ class HomePage extends JFrame implements ActionListener,MouseListener
 		);
 		
 		confirm = new JButton("Confirm order");
-		confirm.setBounds(60,500,170,40);
+		confirm.setBounds(30,500,170,40);
 		confirm.setForeground(Color.black);
 		confirm.setBackground(new Color(96,125,139));
 		confirm.setFocusable(false);
 		
 		reset = new JButton("Reset order");
-		reset.setBounds(310,500,170,40);
+		reset.setBounds(250,500,170,40);
 		reset.setForeground(Color.black);
 		reset.setBackground(new Color(96,125,139));
 		reset.setFocusable(false);
+		
+		DetailsButton = new JButton("AddToCart");
+		DetailsButton.setBounds(470,500,170,40);
+		DetailsButton.setForeground(Color.black);
+		DetailsButton.setBackground(new Color(96,125,139));
+		DetailsButton.setFocusable(false);
 		
 		customInfo = new JLabel("CUSTOMER'S INFORMATION");
 		customInfo.setBounds(0,0,230,50);
@@ -282,6 +288,7 @@ class HomePage extends JFrame implements ActionListener,MouseListener
 		p2.add(coffeep);
 		p2.add(confirm);
 		p2.add(reset);
+		p2.add(DetailsButton);
 		p2.add(appL);
 		
 		pizzap.add(pizzal);
@@ -326,6 +333,7 @@ class HomePage extends JFrame implements ActionListener,MouseListener
 		confirm.addMouseListener(this);
 		reset.addMouseListener(this);
 		confirm.addActionListener(this);
+		DetailsButton.addActionListener(this);
 		reset.addActionListener(new ActionListener()
 		{
 			public void  actionPerformed(ActionEvent e){
@@ -356,6 +364,61 @@ class HomePage extends JFrame implements ActionListener,MouseListener
 		String pqty = pizzqtyL.getText().trim();
 		String sqty = sanqtyL.getText().trim();
 		String cqty = coffeeqtyL.getText().trim();
+		String Cname = namef.getText().trim();
+		String Caddress = addressf.getText().trim();
+		String TotalPrice = totalf.getText().trim();
+		
+		if (e.getSource() == DetailsButton) {
+    boolean itemSelected = false;
+    try {
+        FileWriter insert = new FileWriter("./details.txt", true);
+
+        if (pizzbox.isSelected()) {
+            insert.write(Cname + "\t");
+            insert.write(Caddress + "\t");
+            insert.write("Pizza"+"\t");
+            insert.write("650" + "\t");
+            insert.write(TotalPrice + "\n");
+            itemSelected = true;
+        }
+
+        if (sanbox.isSelected()) {
+            insert.write(Cname + "\t");
+            insert.write(Caddress + "\t");
+            insert.write("Sandwich"+"\t");
+            insert.write("150" + "\t");
+            insert.write(TotalPrice + "\n");
+            itemSelected = true;
+        }
+
+        if (coffeebox.isSelected()) {
+            insert.write(Cname + "\t");
+            insert.write(Caddress + "\t");
+            insert.write("Americano"+"\t");
+            insert.write("250" + "\t");
+            insert.write(TotalPrice + "\n");
+            itemSelected = true;
+        }
+
+        insert.flush();
+        insert.close();
+
+        if (itemSelected) {
+            JOptionPane.showMessageDialog(null, "Your Selections have been added to cart. Please check it.",
+                    "Order Cart", JOptionPane.INFORMATION_MESSAGE);
+            this.setVisible(false);
+            Cart C = new Cart();
+            C.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select at least one item before adding to cart.","No Selection", JOptionPane.WARNING_MESSAGE);
+			return;
+        }
+
+    } catch (IOException ioe) {
+        ioe.printStackTrace();
+    }
+}
+
 	
 		if(namef.getText().trim().isEmpty() || addressf.getText().trim().isEmpty() || phonef.getText().trim().isEmpty())
 		{
@@ -434,10 +497,10 @@ class HomePage extends JFrame implements ActionListener,MouseListener
 			total_price += (coffee_quantity*250);
 			isOrderValid = true;
 		}
-		
 		if(isOrderValid){
 		JOptionPane.showMessageDialog(null,"Your Order has been confirmed Successfully \n Thank you for ordering from MistyMegh","Confirmation Message",JOptionPane.INFORMATION_MESSAGE);
 		totalf.setText("BDT " + total_price);
+		return;
 		}
 		else
 		{

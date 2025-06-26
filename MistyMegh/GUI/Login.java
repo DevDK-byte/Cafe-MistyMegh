@@ -11,7 +11,7 @@ public class Login extends JFrame implements ActionListener
     JLabel welcomeLbl, namelbl, passlbl, imageLabel;
     JTextField namefld;
     JPasswordField passfld;
-    JButton loginbtn, rgstrbtn, eyebutton;
+    JButton loginbtn, rgstrbtn, eyebutton,adminLogin;
     Color mycolor, lblcolor;
     Font myfont;
     ImageIcon img, eye, eye2;
@@ -119,78 +119,55 @@ public class Login extends JFrame implements ActionListener
         loginbtn.setFocusable(false);
         loginbtn.setBackground(lblcolor);
         rightPanel.add(loginbtn);
+		
+		adminLogin = new JButton("Admin");
+		adminLogin.setBounds(105,340,100,40);
+        adminLogin.setFocusable(false);
+        adminLogin.setBackground(lblcolor);
+        rightPanel.add(adminLogin);
+		
 
         loginbtn.addActionListener(this);
         rgstrbtn.addActionListener(this);
+		adminLogin.addActionListener(this);
 
         this.add(rightPanel);
         this.add(leftPanel);
-        this.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getSource() == rgstrbtn)
-        {
+		String s1=namefld.getText();
+		String s2=passfld.getText();
+		if (e.getSource() == rgstrbtn){
             this.setVisible(false);
             SignUp s = new SignUp();
             s.setVisible(true);
         }
-
-        if (e.getSource() == loginbtn)
-        {
-            String username = namefld.getText().trim();
-            char[] passwordChars = passfld.getPassword();
-            String password = String.valueOf(passwordChars).trim();
-
-            if (username.isEmpty() || password.isEmpty())
-            {
-                JOptionPane.showMessageDialog(null, "Please Fillup all Information carefully", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            boolean canLogin = false;
-            try
-            {
-                File file = new File("./dat.txt");
-                Scanner sc = new Scanner(file);
-
-                while (sc.hasNextLine())
-                {
-                    String line = sc.nextLine();
-                    String[] part = line.split("\t");
-
-                    if (part.length == 3)
-                    {
-                        String store_username = part[0].trim();
-                        String store_password = part[2].trim();
-
-                        if (username.equals(store_username) && password.equals(store_password))
-                        {
-                            canLogin = true;
-                            break;
-                        }
-                    }
-                }
-                sc.close();
-
-                if (canLogin)
-                {
-                    JOptionPane.showMessageDialog(null, "Login successful");
-                    this.setVisible(false);
-                    HomePage home = new HomePage();
-                    home.setVisible(true);
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "Your Username or Password is Invalid!", "Login unsuccessful", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-            catch (Exception me)
-            {
-                me.printStackTrace();
+        else if (e.getSource() == loginbtn){
+            Account account = new Account(s1,s2);
+            if (account.validateLogin()){
+                JOptionPane.showMessageDialog(null, "Login successful");
+                this.setVisible(false);
+                HomePage home = new HomePage();
+                home.setVisible(true);
             }
         }
+		else if (e.getSource() == adminLogin){
+            String user_name = namefld.getText().trim();
+			String user_pass = passfld.getText().trim();
+			
+			if(user_name.equalsIgnoreCase("admin") && user_pass.equalsIgnoreCase("admin"))
+			{
+			this.setVisible(false);
+			AdminPage ap = new AdminPage();
+			ap.setVisible(true);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Your Username or Password is Invalid!", "Login unsuccessful", JOptionPane.ERROR_MESSAGE);
+                return;
+			}
+}
     }
 }

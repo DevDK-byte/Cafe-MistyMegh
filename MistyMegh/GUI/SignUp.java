@@ -31,7 +31,7 @@ class SignUp extends JFrame implements ActionListener,MouseListener
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(500,700);
 		this.setResizable(false);
-		this.setTitle("Cafe Management System ☕🍔");
+		this.setTitle("Cafe Management System");
 		this.setLocationRelativeTo(null);
 		
 		c1 = new Color(45,55,65);
@@ -186,6 +186,7 @@ class SignUp extends JFrame implements ActionListener,MouseListener
 			if(username_field.isEmpty() || email_field.isEmpty() || pass_field.isEmpty())
 			{
 				JOptionPane.showMessageDialog(null,"Please fill up all the fields","Error-25",JOptionPane.ERROR_MESSAGE);
+				return;
 			}
 			
 			if(b1.isSelected())
@@ -251,4 +252,5 @@ class SignUp extends JFrame implements ActionListener,MouseListener
 	{}
 	public void mousePressed(MouseEvent me)
 	{}
+	
 }
