@@ -9,6 +9,10 @@ This is my first ever university project-a cafe management system using java swi
 * place order and confirm individually
 * Confirm final order (filling all fields are mandatory)
 * Reset order
+* Delete Order
 * Efficient data saving
+## Latest Features
+* Admin Dashboard
+* Add to Cart
 
 ## This project is open for collaboration!
